@@ -8,7 +8,7 @@ const routes = [
     },
     {
         method: 'GET',
-        path: '/mushroom/{jamurId}',
+        path: '/mushrooms/{jamurId}',
         handler: MushroomHandler.getMushroombyIdHandler,
     }
 ];
