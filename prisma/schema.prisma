@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,11 +8,42 @@ datasource db {
 }
 
 model jamur {
-   id    Int     @id @default(autoincrement())
-   nama  String  
-   jenis  String  
-   gambar  String  
-   introduction  String  
-   planting_media  String  
+  id          Int    @id @default(autoincrement())
+  nama        String @db.VarChar(1024)
+  jenis       String @db.VarChar(1024)
+  deskripsi   String @db.VarChar(1024)
+  media_tanam String @db.VarChar(1024)
 }
 
+model gambar {
+  id      Int    @id @default(autoincrement())
+  gambar1 String @db.VarChar(256)
+  gambar2 String @db.VarChar(256)
+  gambar3 String @db.VarChar(256)
+}
+
+model resep {
+  id           Int            @id
+  nama         String?        @db.VarChar(255)
+  gambar       String?        @db.VarChar(255)
+  waktu        String         @db.VarChar(256)
+  porsi        String         @db.VarChar(256)
+  langkah_buat langkah_buat[]
+}
+
+model bahan {
+  id       Int     @id @default(autoincrement())
+  id_resep Int?
+  bahan    String? @db.VarChar(255)
+
+  @@index([id_resep], map: "id_resep")
+}
+
+model langkah_buat {
+  id       Int     @id @default(autoincrement())
+  id_resep Int?
+  langkah  String? @db.Text
+  resep    resep?  @relation(fields: [id_resep], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "langkah_buat_ibfk_1")
+
+  @@index([id_resep], map: "id_resep")
+}

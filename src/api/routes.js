@@ -10,7 +10,19 @@ const routes = [
         method: 'GET',
         path: '/mushrooms/{jamurId}',
         handler: MushroomHandler.getMushroombyIdHandler,
-    }
+    },
+    {
+        method: 'GET',
+        path: '/recipes',
+        handler: MushroomHandler.getAllRecipeHandler,
+    },
+    {
+        method: 'GET',
+        path: '/recipes/{resepId}',
+        handler: MushroomHandler.getAllRecipebyIdHandler,
+    },
+
 ];
+
 
 module.exports = routes;
