@@ -21,6 +21,11 @@ const routes = [
         path: '/recipes/{resepId}',
         handler: MushroomHandler.getAllRecipebyIdHandler,
     },
+    {
+        method: 'GET',
+        path: '/mushrooms/name',
+        handler: MushroomHandler.getMushroombyNameHandler,
+    },
 
 ];
 

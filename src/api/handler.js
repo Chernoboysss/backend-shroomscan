@@ -193,10 +193,62 @@ const getAllRecipebyIdHandler = async (request, h) => {
 
 };
 
+const getMushroombyNameHandler = async (request, h) => {
+    const { Jamur } = request.query; // Mengambil parameter query 'Jamur'
+    const gambar = await prisma.gambar.findMany();
+
+    try {
+        if (!Jamur) {
+            return h.response({
+                status: "fail",
+                message: 'Query parameter "Jamur" tidak ditemukan',
+            }).code(400);
+        }
+
+        const mushrooms = await prisma.jamur.findMany({
+            where: {
+                nama: {
+                    contains: Jamur.toLowerCase(), // Mengubah ke huruf kecil untuk pencarian tidak peka huruf besar/kecil
+                },
+            },
+        });
+
+        const data = mushrooms.map(jamurItem => {
+            const relatedGambar = gambar.find(gambarItem => gambarItem.id === jamurItem.id);
+            return {
+                ...jamurItem,
+                gambar1: relatedGambar ? relatedGambar.gambar1 : null,
+                gambar2: relatedGambar ? relatedGambar.gambar2 : null,
+                gambar3: relatedGambar ? relatedGambar.gambar3 : null
+            };
+        });
+
+        if (mushrooms.length > 0) {
+            return h.response({
+                status: "success",
+                data: data,
+            }).code(200);
+        } else {
+            return h.response({
+                status: "fail",
+                message: 'Jamur tidak ditemukan',
+            }).code(404);
+        }
+
+    } catch (error) {
+        console.error(error);
+        return h.response({
+            status: 'error',
+            message: 'Terjadi kesalahan pada server',
+        }).code(500);
+    }
+};
+
 
 module.exports = {
     getAllMushroomHandler,
     getMushroombyIdHandler,
     getAllRecipeHandler,
-    getAllRecipebyIdHandler
+    getAllRecipebyIdHandler,
+    getMushroombyNameHandler
 };
