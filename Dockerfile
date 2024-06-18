@@ -18,7 +18,7 @@ COPY prisma ./prisma
 
 # Set environment variable untuk DATABASE_URL
 # Gantilah <YOUR_DATABASE_URL> dengan URL koneksi database Anda
-ENV DATABASE_URL="mysql://root:123@34.128.64.148/db_shroomscan"
+ENV DATABASE_URL="mysql://root:123@34.101.195.160/db_shroomscan"
 
 # Menjalankan prisma db pull untuk menarik skema dari database
 RUN npx prisma db pull
